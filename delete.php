@@ -7,4 +7,4 @@ $id = $_GET['id'];
 $query  = "DELETE FROM personas WHERE id = $id";
 $result = mysqli_query($con, $query) or die(mysqli_error($con));
 
-header('index.php');
+header('Location: index.php');

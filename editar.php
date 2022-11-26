@@ -40,10 +40,12 @@ $data = mysqli_fetch_assoc($result);
             </select>
             <br>
             <label for="">Ciudad</label><br>
-            <select name="id_ciudad" id="id_ciudad">
-                <option value="">seleccione una opcion</option>
-                <option value="">cali</option>
-                <option value="">bogota</option>
+            <select id="id_ciudad" name="id_ciudad" required>
+                <option selected>Seleccione una Opcion...</option>
+                <?php foreach ($ciudades as $ciudad) : ?>
+                    <option value="<?= $ciudad ['id'] ?>"><?= $ciudad['nombre']  ?></option>";
+                <?php endforeach ?> 
+                ?>
             </select>
             <br>
             <label for="">Fecha De Nacimmiento</label><br>

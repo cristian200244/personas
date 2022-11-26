@@ -1,10 +1,14 @@
 <?php
 include_once("conexion.php");
+$query="SELECT personas.id, CONCAT (IFNULL(primer_nombre,''),'',IFNULL(segundo_nombre,''),'',IFNULL(primer_apellido,''),'',IFNULL(segundo_apellido,'')) AS nombre_completo,
+sexo.nombre  AS sexo, ciudades.nombre AS ciudad, fecha_nacimiento
+FROM personas JOIN ciudades.id = personas.id_ciudad
+JOIN sexo ON sexo.id = personas.id_sexo ";
 
-
-$query  = "SELECT * FROM personas";
-$peronas = mysqli_query($con, $query);
-$datos = mysqli_fetch_assoc($peronas);
+$query  = "SELECT id, nombre AS id_ciudad FROM ciudades";
+$personas = mysqli_query($con, $query);
+$datos = mysqli_fetch_assoc($personas);
+$ciudades = mysqli_query($con,$query) or die(mysqli_error($con));
 
 ?>
 <!DOCTYPE html>
@@ -35,16 +39,16 @@ $datos = mysqli_fetch_assoc($peronas);
             <select name="id_sexo" id="id_sexo"><br>
                 <option value="">seleccione una opcion</option>
                 <option value="1">M</option>
-                <option value="0">F</option>
+                <option value="2">F</option>
             </select>
             <br>
-            <label for="">Ciudad</label><br>
 
-            <select id="id_ciudad" name="id_ciudad" required>
-                <option selected>Seleccione una Opcion...</option>
-                <?php foreach ($ciudades as $id_ciudad) : ?>
-                    <option value="<?= $id_ciudad['id'] ?>"><?= $id_ciudad['nombre']  ?></option>";
-                <?php endforeach ?>
+            <label for="">Ciudad</label><br>
+            <select name="id_ciudad" id="id_ciudad">
+                <option value="0">seleccionar:</option>
+                <?php foreach ($ciudades as $ciudad) :
+                    echo '<option value="' . $ciudad['id'] . '">' . $ciudad['id_ciudad'] . '</option>';
+                endforeach;
                 ?>
             </select>
             <br>
@@ -64,16 +68,14 @@ $datos = mysqli_fetch_assoc($peronas);
             <th colspan="2">Opciones</th>
         </tr>
         <?php
-        if (mysqli_num_rows($peronas) > 0) {
+        if (mysqli_num_rows($personas) > 0) {
             $pos = 1;
-
-            while ($datos = mysqli_fetch_assoc($peronas)) {
-
+            while ($datos = mysqli_fetch_assoc($personas)) {
         ?>
                 <tr>
                     <td><?php echo $pos; ?></td>
-                    <td><?php echo $datos['primer_nombre']; ?></td>
-                    <td><?php echo $datos['id_sexo'] ? 'M' : 'F'; ?></td>
+                    <td><?php echo $datos['nombre_completo']; ?></td>
+                    <td><?php echo $datos['sexo'] ? 'M' : 'F'; ?></td>
                     <td><?php echo $datos['ciudad']; ?></td>
                     <td><?php echo $datos['fecha_nacimiento']; ?></td>
 
@@ -88,14 +90,10 @@ $datos = mysqli_fetch_assoc($peronas);
             <tr>
                 <td colspan=5>No Hay datos Disponibles</td>
             </tr>
-
             <?php ?>
+        <?php } ?>
     </table>
-<?php } ?>
-</div>
 
-
-</table>
 </body>
 
 </html>
