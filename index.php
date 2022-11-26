@@ -1,3 +1,12 @@
+<?php
+include_once("conexion.php");
+
+
+$query  = "SELECT * FROM personas";
+$peronas = mysqli_query($con, $query);
+$perona = mysqli_fetch_assoc($peronas);
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -12,7 +21,7 @@
 <body>
     <h1>Formulario De Inscripción</h1>
     <div class="main">
-        <form action="index.php" method="post">
+        <form action="save.php" method="post">
             <label for="">Primer Nombre</label><br>
             <input type="text" name="primer_nombre" id="primer_nombre"><br>
             <label for="">Segundo Nombre</label><br>
@@ -31,9 +40,9 @@
             <br>
             <label for="">Ciudad</label><br>
             <select name="id_ciudad" id="id_ciudad">
-                <option value="">seleccione una opcion</option>
-                <option value="">cali</option>
-                <option value="">bogota</option>
+            <option value="">seleccione una opcion</option>
+                <option value="cali">cali</option>
+                <option value="bogota">bogota</option>
             </select>
             <br>
             <label for="">Fecha De Nacimmiento</label><br>
@@ -51,14 +60,39 @@
             <th>Fecha De Nacimiento</th>
             <th colspan="2">Opciones</th>
         </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+        <?php
+        if (mysqli_num_rows($peronas) > 0) {
+            $pos = 1;
 
+            while ($persona = mysqli_fetch_assoc($peronas)) {
+
+        ?>
+                <tr>
+                    <td><?php echo $pos; ?></td>
+                    <td><?php echo $persona['primer_nombre']; ?></td>
+                    <td><?php echo $persona['id_sexo']; ?></td>
+                    <td><?php echo $persona['ciudad']; ?></td>
+                    <td><?php echo $persona['fecha_nacimiento']; ?></td>
+
+
+                    <td><button><a href="delete.php?id=<?php echo $persona['id']; ?>">Eliminar</a></button></td>
+                    <td><button><a href="editar.php?id=<?php echo $persona['id']; ?>">Editar</a></button></td>
+
+                </tr>
+            <?php $pos++;
+            }
+        } else { ?>
+            <tr>
+                <td colspan=5>No Hay datos Disponibles</td>
+            </tr>
+
+            <?php ?>
     </table>
+<?php } ?>
+</div>
+
+
+</table>
 </body>
 
 </html>
