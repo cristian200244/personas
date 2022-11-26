@@ -35,7 +35,7 @@ $data = mysqli_fetch_assoc($result);
 
             <select name="id_sexo" id="id_sexo"><br>
                 <option value="">seleccione una opcion</option>
-                <option value="masculino">Masculino</option>
+                <option value="m">Mas culino</option>
                 <option value="femenino">Femenino</option>
             </select>
             <br>
@@ -47,8 +47,8 @@ $data = mysqli_fetch_assoc($result);
             </select>
             <br>
             <label for="">Fecha De Nacimmiento</label><br>
-            <input type="date" name="fecha_nacimiento" id="fecha_nacimient"><br><br>
-            
+            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento"><br><br>
+
             <button type="submit">Actualizar</button>
             <button><a href="index.php">Inicio</a></button>
         </form>

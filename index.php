@@ -4,7 +4,7 @@ include_once("conexion.php");
 
 $query  = "SELECT * FROM personas";
 $peronas = mysqli_query($con, $query);
-$perona = mysqli_fetch_assoc($peronas);
+$datos = mysqli_fetch_assoc($peronas);
 
 ?>
 <!DOCTYPE html>
@@ -34,19 +34,22 @@ $perona = mysqli_fetch_assoc($peronas);
 
             <select name="id_sexo" id="id_sexo"><br>
                 <option value="">seleccione una opcion</option>
-                <option value="masculino">Masculino</option>
-                <option value="femenino">Femenino</option>
+                <option value="1">M</option>
+                <option value="0">F</option>
             </select>
             <br>
             <label for="">Ciudad</label><br>
-            <select name="id_ciudad" id="id_ciudad">
-            <option value="">seleccione una opcion</option>
-                <option value="cali">cali</option>
-                <option value="bogota">bogota</option>
+
+            <select id="id_ciudad" name="id_ciudad" required>
+                <option selected>Seleccione una Opcion...</option>
+                <?php foreach ($ciudades as $id_ciudad) : ?>
+                    <option value="<?= $id_ciudad['id'] ?>"><?= $id_ciudad['nombre']  ?></option>";
+                <?php endforeach ?>
+                ?>
             </select>
             <br>
             <label for="">Fecha De Nacimmiento</label><br>
-            <input type="date" name="fecha_nacimiento" id="fecha_nacimient"><br><br>
+            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento"><br><br>
             <button type="submit">enviar</button>
         </form>
     </div>
@@ -64,19 +67,19 @@ $perona = mysqli_fetch_assoc($peronas);
         if (mysqli_num_rows($peronas) > 0) {
             $pos = 1;
 
-            while ($persona = mysqli_fetch_assoc($peronas)) {
+            while ($datos = mysqli_fetch_assoc($peronas)) {
 
         ?>
                 <tr>
                     <td><?php echo $pos; ?></td>
-                    <td><?php echo $persona['primer_nombre']; ?></td>
-                    <td><?php echo $persona['id_sexo']; ?></td>
-                    <td><?php echo $persona['ciudad']; ?></td>
-                    <td><?php echo $persona['fecha_nacimiento']; ?></td>
+                    <td><?php echo $datos['primer_nombre']; ?></td>
+                    <td><?php echo $datos['id_sexo'] ? 'M' : 'F'; ?></td>
+                    <td><?php echo $datos['ciudad']; ?></td>
+                    <td><?php echo $datos['fecha_nacimiento']; ?></td>
 
 
-                    <td><button><a href="delete.php?id=<?php echo $persona['id']; ?>">Eliminar</a></button></td>
-                    <td><button><a href="editar.php?id=<?php echo $persona['id']; ?>">Editar</a></button></td>
+                    <td><button><a href="delete.php?id=<?php echo $datos['id']; ?>">Eliminar</a></button></td>
+                    <td><button><a href="editar.php?id=<?php echo $datos['id']; ?>">Editar</a></button></td>
 
                 </tr>
             <?php $pos++;

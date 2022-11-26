@@ -11,7 +11,7 @@ $id_ciudad        = $_POST['id_ciudad'];
 $fecha_nacimiento = $_POST['fecha_nacimiento'];
 
 if (!isset($_POST['id'])) {
-    $query = "INSERT INTO personas(primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, id_sexo, id_ciudad, fecha_nacimento) VALUES('$primer_nombre','$segundo_nombre','$primer_apellido','$segundo_apellido','$id_sexo','$id_ciudad','$fecha_nacimiento')";
+    $query = "INSERT INTO personas(primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, id_sexo, id_ciudad, fecha_nacimiento) VALUES('$primer_nombre','$segundo_nombre','$primer_apellido','$segundo_apellido','$id_sexo','$id_ciudad','$fecha_nacimiento')";
 } else {
     $query = "UPDATE personas SET primer_nombre = '$primer_nombre', segundo_nombre   = '$segundo_nombre',  primer_apellido  = '$primer_apellido', segundo_apellido = '$segundo_apellido',  id_sexo = '$id_sexo', id_ciudad  = '$id_ciudad',  fecha_nacimiento = {$fecha_nacimiento}  WHERE id = {$_POST['id']}";
 }
